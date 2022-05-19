@@ -87,5 +87,44 @@ namespace project_2.Controllers
 
             return CreatedAtAction(nameof(GetOne), new { Id = timeregDTO.Id }, timeregDTO);
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update(int id, UpdateTimeRegDTO UpdateTimeReg)
+        {
+            //var customer = _context.Customers.Find(UpdateTimeReg.CustomerId);
+            //if (customer == null)
+            //    return NotFound();
+
+            //var project = _context.Projects.Find(UpdateTimeReg.ProjectId);
+            //if (project == null)
+            //    return NotFound();
+
+            var timereg = _context.TimeRegistration.FirstOrDefault(e => e.Id == id);
+            if (timereg == null)
+                return NotFound();
+
+
+            timereg.AmountTime = UpdateTimeReg.AmountTime;
+            timereg.Date = UpdateTimeReg.Date;
+            timereg.Description = UpdateTimeReg.Description;
+
+
+            _context.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var timereg = _context.TimeRegistration.FirstOrDefault(e => e.Id == id);
+            if (timereg == null)
+                return NotFound();
+            _context.Remove(timereg);
+            _context.SaveChanges();
+            return NoContent();
+
+        }
     }
 }
