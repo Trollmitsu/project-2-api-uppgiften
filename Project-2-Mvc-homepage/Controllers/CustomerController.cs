@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Project_2_Mvc_homepage.Services;
@@ -9,6 +10,7 @@ using project_2.DTO.CustomerDTO;
 
 namespace Project_2_Mvc_homepage.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;

@@ -1,4 +1,5 @@
-﻿using project_2.DTO.ProjectDTO;
+﻿using project_2.DTO.CustomerDTO;
+using project_2.DTO.ProjectDTO;
 
 namespace Project_2_Mvc_homepage.ViewModel.ProjectViewModels
 {
@@ -11,6 +12,7 @@ namespace Project_2_Mvc_homepage.ViewModel.ProjectViewModels
             public int Id { get; set; }
             public string ProjectName { get; set; }
             
+            public GetCustomerDTO Customer { get; set; }
         }
     }
    

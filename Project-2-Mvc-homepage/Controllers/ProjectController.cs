@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using project_2.DTO.CustomerDTO;
 using project_2.DTO.ProjectDTO;
 using Project_2_Mvc_homepage.Services;
 
 using Project_2_Mvc_homepage.ViewModel.ProjectViewModels;
 
+
 namespace Project_2_Mvc_homepage.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;
@@ -22,7 +26,11 @@ namespace Project_2_Mvc_homepage.Controllers
                 new ProjectViewModel.ProjectListItemViewModel()
                 {
                     ProjectName = e.ProjectName,
-                    Id = e.Id
+                    Id = e.Id,
+                    Customer = new GetCustomerDTO()
+                    {
+                        Name = e.Customer.Name
+                    }
                 }).ToList();
 
             return View(model);

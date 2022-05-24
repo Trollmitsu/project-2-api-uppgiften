@@ -55,6 +55,7 @@ namespace Project_2_Mvc_homepage.Services
             var data = httpClient.GetStringAsync(
                 _settings.Value.Url).Result;
             JsonConvert.DeserializeObject<List<DeleteCustomerDTO>>(data);
+
         }
     }
 
