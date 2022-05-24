@@ -76,6 +76,7 @@ namespace project_2.Controllers
             _context.SaveChanges();
             var timeregDTO = new GetTimeRegsDTO()
             {
+
                 Id = timereg.Id,
                 Date = timereg.Date,
                 Description = timereg.Description,

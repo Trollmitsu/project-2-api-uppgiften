@@ -8,7 +8,7 @@
         public Project Project { get; set; }
 
         public DateTime Date { get; set; }
-
+        
         public int AmountTime { get; set; }
         public string Description { get; set; }
     }

@@ -1,0 +1,22 @@
+﻿@model Project_2_Mvc_homepage.ViewModel.CustomerViewModels.CustomersViewModel
+
+
+@{
+    ViewData["Title"] = "Alla players";
+}
+
+<h1>Alla spelare </h1>
+<ul>
+    @foreach (var Cust in Model.Customers)
+    {
+        <li>
+            <a asp-controller="Customer" asp-action="Edit" asp-route-id="@Cust.Id">
+                @Cust.Name
+            </a>
+        
+        </li>
+    }
+</ul>
+<a asp-controller="Customer" asp-action="New">
+    Skapa ny
+</a>
