@@ -5,18 +5,25 @@
     ViewData["Title"] = "Alla players";
 }
 
-<h1>Alla spelare </h1>
-<ul>
+<h1>All Customers </h1>
+<table class="table">
+    <tr>
+    <th>ID</th>
+        <th>Name</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>   
     @foreach (var Cust in Model.Customers)
     {
-        <li>
-            <a asp-controller="Customer" asp-action="Edit" asp-route-id="@Cust.Id">
-                @Cust.Name
-            </a>
-        
-        </li>
+        <tr>
+            <td> @Cust.Id</td>
+            <td> @Cust.Name</td>
+                
+                <td><a asp-controller="Customer" asp-action="Edit" asp-route-id="@Cust.Id"><i class='bx bxs-edit-alt'></i> </a></td>
+                <td><a class="text-danger" asp-controller="Customer" asp-action="Delete" asp-route-id="@Cust.Id"><i class='bx bxs-message-x'></i> </a></td>
+            </tr>
     }
-</ul>
-<a asp-controller="Customer" asp-action="New">
-    Skapa ny
+</table>
+<a asp-controller="Customer" asp-action="Create">
+    Create New
 </a>

@@ -1,0 +1,24 @@
+﻿@model Project_2_Mvc_homepage.ViewModel.ProjectViewModels.CreateProjectViewModel
+
+@{
+    ViewData["Title"] = "New Project";
+}
+<div class="card">
+    <div class="card-header">
+        <h1>Create Project</h1>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="ProjectName">ProjectName</label>
+                <input class="form-control" asp-for="ProjectName" />  
+                <span asp-validation-for="ProjectName" class="field-validation-error"></span>
+            </div>
+
+
+            <button type="submit" class="btn">Save</button>
+
+        </form>
+
+    </div>
+</div>

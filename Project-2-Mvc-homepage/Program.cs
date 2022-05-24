@@ -11,7 +11,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddTransient<ICustomerService, CustomerService>();
+builder.Services.AddTransient<IProjectService, ProjectService>();
 builder.Services.Configure<CustomerSettings>(builder.Configuration.GetSection("Customers"));
+builder.Services.Configure<ProjectSettings>(builder.Configuration.GetSection("Projects"));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

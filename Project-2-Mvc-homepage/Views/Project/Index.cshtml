@@ -1,0 +1,29 @@
+﻿@model Project_2_Mvc_homepage.ViewModel.ProjectViewModels.ProjectViewModel
+
+
+@{
+    ViewData["Title"] = "Alla players";
+}
+
+<h1>All Customers </h1>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Project Name</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>   
+    @foreach (var proj in Model.Projects)
+    {
+        <tr>
+            <td> @proj.Id</td>
+            <td> @proj.ProjectName</td>
+                
+            <td><a asp-controller="Project" asp-action="Edit" asp-route-id="@proj.Id"><i class='bx bxs-edit-alt'></i> </a></td>
+            <td><a class="text-danger" asp-controller="Project" asp-action="Delete" asp-route-id="@proj.Id"><i class='bx bxs-message-x'></i> </a></td>
+        </tr>
+    }
+</table>
+<a asp-controller="Project" asp-action="Create">
+    Create New
+</a>

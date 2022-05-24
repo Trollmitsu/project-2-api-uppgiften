@@ -1,0 +1,22 @@
+﻿@model Project_2_Mvc_homepage.ViewModel.ProjectViewModels.EditProjectViewModel
+@{
+    ViewData["Title"] = "Edit Customer";
+}
+<div class="card">
+    <div class="card-header">
+        <h1>Edit Project</h1>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="ProjectName">Namn</label>
+                <input class="form-control" asp-for="ProjectName" />  
+                <span asp-validation-for="ProjectName" class="field-validation-error"></span>
+            </div>
+
+            <button type="submit" class="btn">Save</button>
+
+        </form>
+
+    </div>
+</div>
