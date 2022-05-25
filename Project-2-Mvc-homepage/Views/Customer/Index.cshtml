@@ -19,8 +19,14 @@
             <td> @Cust.Id</td>
             <td> @Cust.Name</td>
                 
-                <td><a asp-controller="Customer" asp-action="Edit" asp-route-id="@Cust.Id"><i class='bx bxs-edit-alt'></i> </a></td>
-                <td><a class="text-danger" asp-controller="Customer" asp-action="Delete" asp-route-id="@Cust.Id"><i class='bx bxs-message-x'></i> </a></td>
+            <td><a asp-controller="Customer" asp-action="Edit" asp-route-id="@Cust.Id"><i class='bx bxs-edit-alt'></i> </a></td>
+            
+
+            <td>
+                <form method="post">
+                    <button class="text-danger border-0" asp-controller="Customer" asp-action="Delete" asp-route-id="@Cust.Id" type="submit"><i class='bx bxs-message-x'></i> </button>
+                </form>
+            </td>
             </tr>
     }
 </table>

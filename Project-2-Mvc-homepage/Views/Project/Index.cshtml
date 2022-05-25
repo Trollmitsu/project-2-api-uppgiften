@@ -22,7 +22,12 @@
             <td> @proj.ProjectName</td>
 
             <td><a asp-controller="Project" asp-action="Edit" asp-route-id="@proj.Id"><i class='bx bxs-edit-alt'></i> </a></td>
-            <td><a class="text-danger" asp-controller="Project" asp-action="Delete" asp-route-id="@proj.Id"><i class='bx bxs-message-x'></i> </a></td>
+            <td>
+                <form method="post">
+                    <button class="text-danger border-0" asp-controller="Project" asp-action="Delete" asp-route-id="@proj.Id" type="submit"><i class='bx bxs-message-x'></i> </button>
+                </form>
+                
+            </td>
         </tr>
     }
 </table>

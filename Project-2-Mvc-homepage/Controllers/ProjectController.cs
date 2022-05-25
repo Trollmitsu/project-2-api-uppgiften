@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using project_2.DTO.CustomerDTO;
 using project_2.DTO.ProjectDTO;
 using Project_2_Mvc_homepage.Services;
@@ -13,10 +14,12 @@ namespace Project_2_Mvc_homepage.Controllers
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;
+        private readonly ICustomerService _customerService;
 
-        public ProjectController(IProjectService projectService)
+        public ProjectController(IProjectService projectService, ICustomerService customerService)
         {
             _projectService = projectService;
+            _customerService = customerService;
         }
         public IActionResult Index()
         {
@@ -40,43 +43,82 @@ namespace Project_2_Mvc_homepage.Controllers
         public IActionResult Edit(int id)
         {
             var proj = _projectService.GetProjects().FirstOrDefault(e => e.Id == id);
-            var model = new EditProjectViewModel();
-            model.ProjectName = proj.ProjectName;
+            var model = new EditProjectViewModel
+            {
+                ProjectName = proj.ProjectName,
+                CustomerId = proj.Customer.Id,
+                customers = ListItems()
+
+            };
+            
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, EditProjectViewModel project)
+        public IActionResult Edit(int id, UpdateProjectDTO project)
         {
             if (ModelState.IsValid)
             {
-                var proj = _projectService.GetProjects().SingleOrDefault(e => e.Id == id);
-                proj.ProjectName = project.ProjectName;
-
-
+                var proj = _projectService.GetProjects().First(e => e.Id == id);
+                var result = _projectService.UpdateProject(id, project);
                 return RedirectToAction(nameof(Index));
-
             }
-            return View(project);
+
+            return View(nameof(Edit));
         }
 
         public IActionResult Create()
         {
-            var proj = new CreateProjectViewModel();
-            return View(proj);
+            return View(new CreateProjectViewModel
+            {
+                customers = ListItems()
+            }); 
+            
         }
 
         [HttpPost]
-        public IActionResult Create(CreateProjectViewModel proj)
+        public IActionResult Create(CreateProjectDTO proj)
         {
             if (ModelState.IsValid)
             {
-                var project = new CreateProjectDTO();
-                project.ProjectName = proj.ProjectName;
+                _projectService.CreateProject(proj);
                 return RedirectToAction(nameof(Index));
             }
 
             return View(proj);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                _projectService.DeleteProject(id);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public List<SelectListItem> ListItems()
+        {
+            var list = new List<SelectListItem>();
+            var c = _customerService.GetCustomers();
+            list.Add(new SelectListItem
+            {
+                Text = "Select Customer",
+                Value = 0.ToString(),
+            });
+            foreach (var customer in c)
+            {
+                list.Add(new SelectListItem
+                {
+                    Text = customer.Name,
+                    Value = customer.Id.ToString()
+                });
+                
+            }
+            return list;
         }
     }
 }

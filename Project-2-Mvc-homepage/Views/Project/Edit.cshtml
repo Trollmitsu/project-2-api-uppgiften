@@ -1,4 +1,5 @@
-﻿@model Project_2_Mvc_homepage.ViewModel.ProjectViewModels.EditProjectViewModel
+﻿@using Project_2_Mvc_homepage.ViewModel.CustomerViewModels
+@model Project_2_Mvc_homepage.ViewModel.ProjectViewModels.EditProjectViewModel
 @{
     ViewData["Title"] = "Edit Project";
 }
@@ -12,6 +13,14 @@
                 <label asp-for="ProjectName">Namn</label>
                 <input class="form-control" asp-for="ProjectName" />  
                 <span asp-validation-for="ProjectName" class="field-validation-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerId">Customer Id</label>
+                <select asp-for="CustomerId" class="form-control" asp-items="@Model.customers">
+
+                </select>
+                
+                <span asp-validation-for="CustomerId" class="field-validation-error"></span>
             </div>
 
             <button type="submit" class="btn">Save</button>

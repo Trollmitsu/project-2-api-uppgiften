@@ -39,21 +39,25 @@ namespace Project_2_Mvc_homepage.Controllers
             var model = new EditCustomerViewModel();
             model.Name = cust.Name;
             return View(model);
+            
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, EditCustomerViewModel customer)
+        public IActionResult Edit([Bind("Name")]int id, UpdateCustomerDTO customer)
         {
             if (ModelState.IsValid)
             {
-                var cust = _customerService.GetCustomers().SingleOrDefault(e => e.Id == id);
-                cust.Name = customer.Name;
                 
+                var cust = _customerService.GetCustomers().First(e => e.Id == id);
+                var result = _customerService.UpdateCustomer(id, customer);
+
 
                 return RedirectToAction(nameof(Index));
 
+
             }
-            return View(customer);
+
+            return RedirectToAction(nameof(Edit));
         }
 
         public IActionResult Create()
@@ -64,17 +68,29 @@ namespace Project_2_Mvc_homepage.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateCustomerViewModel cust)
+        public IActionResult Create(
+            CreateCustomerDTO cust)
         {
+
             if (ModelState.IsValid)
             {
-                var customer = new CreateCustomerDTO();
-                customer.Name = cust.Name;
-
+                _customerService.CreateCustomer(cust);
                 return RedirectToAction(nameof(Index));
             }
 
             return View(cust);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                _customerService.DeleteCustomer(id);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

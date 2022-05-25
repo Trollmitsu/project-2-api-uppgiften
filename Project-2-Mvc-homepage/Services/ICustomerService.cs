@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using project_2.DTO.CustomerDTO;
@@ -10,11 +11,11 @@ namespace Project_2_Mvc_homepage.Services
     {
         public List<GetCustomersDTO> GetCustomers();
 
-        public void CreateCustomer();
+        public status CreateCustomer(CreateCustomerDTO CreateNew);
 
-        public void UpdateCustomer();
+        public status UpdateCustomer(int id, UpdateCustomerDTO updateCustomer);
 
-        public void DeleteCustomer();
+        public status DeleteCustomer(int id);
     }
 
     public class CustomerService : ICustomerService
@@ -33,30 +34,53 @@ namespace Project_2_Mvc_homepage.Services
             return JsonConvert.DeserializeObject<List<GetCustomersDTO>>(data);
         }
 
-        public void CreateCustomer()
+
+        public status CreateCustomer(CreateCustomerDTO CreateNew)
         {
-            //var httpClient = new HttpClient();
-            //var data = httpClient.PostAsync(
-            //    _settings.Value.Url).Result;
-            //JsonConvert.DeserializeObject<List<CreateCustomerDTO>>(data);
+            var payload = JsonConvert.SerializeObject(CreateNew);
+            var httpContent = new StringContent(payload, Encoding.UTF8,"Application/json");
+            var httpclient = new HttpClient();
+            var data = httpclient.PostAsync(_settings.Value.Url, httpContent).Result;
+            if (data.IsSuccessStatusCode)
+            {
+                return status.ok;
+            }
+
+            return status.Error;
         }
 
-        public void UpdateCustomer()
+        public status UpdateCustomer(int id, UpdateCustomerDTO updateCustomer)
         {
-            var httpClient = new HttpClient();
-            var data = httpClient.GetStringAsync(
-                _settings.Value.Url).Result;
-            JsonConvert.DeserializeObject<List<UpdateCustomerDTO>>(data);
+            var payload = JsonConvert.SerializeObject(updateCustomer);
+            var httpContent = new StringContent(payload, Encoding.UTF8, "Application/json");
+            var httpclient = new HttpClient();
+            var data = httpclient.PutAsync($"{_settings.Value.Url}/{id}", httpContent).Result;
+            if (data.IsSuccessStatusCode)
+            {
+                return status.ok;
+            }
+
+            return status.Error;
         }
 
-        public void DeleteCustomer()
+        public status DeleteCustomer(int id)
         {
-            var httpClient = new HttpClient();
-            var data = httpClient.GetStringAsync(
-                _settings.Value.Url).Result;
-            JsonConvert.DeserializeObject<List<DeleteCustomerDTO>>(data);
+            var httpclient = new HttpClient();
+            var data = httpclient.DeleteAsync($"{_settings.Value.Url}/{id}").Result;
+            if (data.IsSuccessStatusCode)
+            {
+                return status.ok;
+            }
+
+            return status.Error;
 
         }
+    }
+
+    public enum status 
+    {
+        ok,
+        Error
     }
 
     public class CustomerSettings
